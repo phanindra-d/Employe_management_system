@@ -1,8 +1,11 @@
-from fastapi import FastAPI, Path
+from fastapi import FastAPI, Path, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 import typing
 from random import randrange
 import psycopg2
+from pydantic import BaseModel, Field
 
 try:
     conn = psycopg2.connect(
@@ -17,7 +20,10 @@ except Exception as error:
     print(error)   
 
 app = FastAPI()
-from pydantic import BaseModel, Field
+
+
+
+templates = Jinja2Templates(directory="templates")
 
 try:
     class Employee(BaseModel):
@@ -29,8 +35,9 @@ except Exception as error:
     print(error)
 
 @app.get('/')
-def home_page():
-    return 'Welcome to Employee Management system'
+def home_page(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request, "title": "Home Page", "user": "Alice"})
+
 
 #CREATE EMPLOYEE
 @app.post('/employess')
