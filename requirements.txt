@@ -1,4 +1,4 @@
 fastapi
 uvicorn
 psycopg2
-#pip install -r requirements.txt to install
+#pip install -r requirements.txt 
