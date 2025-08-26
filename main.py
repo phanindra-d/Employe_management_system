@@ -21,6 +21,7 @@ try:
         port = os.getenv('DB_PORT')
     ) 
     cursor = conn.cursor()
+    print('Connected success')
 except Exception as error:
     print(error)   
 

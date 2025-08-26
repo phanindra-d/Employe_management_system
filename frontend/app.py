@@ -7,7 +7,7 @@ import os
 
 load_dotenv()
 
-API_URL = os.getenv('API_URL')
+API_URL = os.getenv("API_URL")
 
 
 id_match = r"^[A-Z0-9]{10}$"
@@ -19,19 +19,21 @@ def view_details():
         response = requests.get(f"{API_URL}/read")
         if response.status_code == 200:
             data = response.json()
+            df = pd.DataFrame(data["Result"], columns=["Employee ID","Name","Age","Department"])
+            df.insert(0, "Serial No", range(1, len(df) + 1))
+            st.dataframe(df.set_index("Serial No"))
+            st.divider()    
+            st.success(f"Total Employes\t:{len(df)}")
+            st.divider()
         else:
-            st.error('Not Retrived')   
-        
-        df = pd.DataFrame(data, columns=["Employee ID","Name","Age","Department"])
-        # DataFrame.insert(loc, column, value, allow_duplicates=False)
-        df.insert(0, "Serial No", range(1, len(df) + 1))
-
-        st.dataframe(df.set_index("Serial No"))
-        st.divider()    
-        st.success(f"Total Employes\t:{len(df)}")
-        st.divider()
+            st.error('Not Retrived')    
     except Exception as error:
         st.write(error)
+            
+          
+        
+        # DataFrame.insert(loc, column, value, allow_duplicates=False)
+       
 
 def add_details():
     try:
