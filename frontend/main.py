@@ -3,6 +3,7 @@ from PIL import Image
 import pandas as pd
 from app import view_details, add_details, update_details, delete_details
 
+
 st.title(" 👨‍💼 Employee Management System")
 st.subheader("Seamless Employee Data Handling")
 tab1, tab2, tab3, tab4 = st.tabs(["View Employess","Add Employee","Update Employee","Clear Employee Data"])

@@ -5,15 +5,20 @@ from pydantic import BaseModel, Field
 import typing
 from random import randrange
 import psycopg2
-from pydantic import BaseModel, Field
+from dotenv import load_dotenv
+import os
+from models import Employee, EmployeeUpdate
+
+
+load_dotenv()
 
 try:
     conn = psycopg2.connect(
-        database = 'employee',
-        user = 'postgres',
-        password = '091004',
-        host = 'localhost',
-        port = '5432'
+        database =os.getenv('DB_NAME'),
+        user = os.getenv('USER_NAME'),
+        password = os.getenv('DB_PASSCODE'),
+        host = os.getenv('DB_HOST'),
+        port = os.getenv('DB_PORT')
     ) 
     cursor = conn.cursor()
 except Exception as error:
@@ -24,29 +29,16 @@ app = FastAPI()
 
 
 
-try:
-    class Employee(BaseModel):
-        id: str = Field(..., title='Employee ID',pattern='^[A-Z0-9]{10}$')
-        name: str = Field(..., min_length=3, max_length=50, pattern='^[a-zA-Z ]+$', title='Full Name')
-        age: int = Field(..., gt=18, lt=100)
-        department: str = Field(..., min_length=1, max_length=50)
-    
-    class EmployeeUpdate(BaseModel):
-        name: str = Field(..., min_length=3, max_length=50, pattern='^[a-zA-Z ]+$')
-        age: int =  Field(..., gt=18, lt=100)
-        department: str =  Field(..., min_length=1, max_length=50)  
 
-except Exception as error:
-    print(error)
 
 @app.get('/')
-def home_page(request: Request):
+def home_page(request: Request) -> str:
     return "Welcome to student management system"
 
 
 #CREATE EMPLOYEE
 @app.post('/employess')
-async def add_employee(employee: Employee, status_code=status.HTTP_201_CREATED):
+async def add_employee(employee: Employee, status_code=status.HTTP_201_CREATED) -> dict:
     try:
         cursor.execute('''SELECT * FROM emp_details WHERE id = %s''',(employee.id,))
         result = cursor.fetchone()
@@ -57,24 +49,24 @@ async def add_employee(employee: Employee, status_code=status.HTTP_201_CREATED):
                 INSERT INTO emp_details(id,name,age,Department) VALUES(%s,%s,%s,%s)''',
                 (employee.id,employee.name,employee.age,employee.department))  
             conn.commit()
-        return employee
+        return {'MSG':employee}
     except Exception as error1:
         print(error1)
 
 
 #READ EMPLOYEE
 @app.get('/read')
-def read_all_employee():
+def read_all_employee() -> dict:
     try:
         cursor.execute('''SELECT * FROM emp_details''')
         result = cursor.fetchall()
-        return result
+        return {'Result':result}
     except Exception as error:
         print(error)
 
 
 @app.get('/read1/{id}')
-def read_employee(id: str = Path(..., regex='^[A-Z0-9]{10}$')):
+def read_employee(id: str = Path(..., regex='^[A-Z0-9]{10}$')) -> dict:
     try:
         cursor.execute('''SELECT * FROM emp_details WHERE id = %s''', (id,))
         res = cursor.fetchone()  
@@ -94,7 +86,7 @@ def read_employee(id: str = Path(..., regex='^[A-Z0-9]{10}$')):
 
 #UPDATE EMPLOYEE
 @app.put('/update/{id}')
-def update_emp_details(employee: EmployeeUpdate, id:str = Path(...,regex='^[A-Z0-9]{10}$')):
+def update_emp_details(employee: EmployeeUpdate, id:str = Path(...,regex='^[A-Z0-9]{10}$')) -> dict:
     try:
         cursor.execute('''SELECT *FROM emp_details WHERE id = %s''',(id,))
         res = cursor.fetchone()
@@ -103,18 +95,18 @@ def update_emp_details(employee: EmployeeUpdate, id:str = Path(...,regex='^[A-Z0
         else:
             cursor.execute('''UPDATE emp_details SET name = %s, age = %s, Department = %s WHERE id = %s''',(employee.name, employee.age, employee.department, id))
             conn.commit()
-            return employee
+            return {'Result':employee}
     except Exception as error:
         print(error)
 
 
 #DELETE EMPLOYEE
 @app.delete('/delete/{id}')
-def delete_details(id:str = Path(...,regex='^[A-Z0-9]{10}$')):
+def delete_details(id:str = Path(...,regex='^[A-Z0-9]{10}$')) -> dict:
     try:
         cursor.execute('''DELETE FROM emp_details WHERE id = %s''',(id,))
         conn.commit()
-        return id
+        return {'ID':id}
     except Exception as error:
         print(error)
 

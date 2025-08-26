@@ -1,12 +1,14 @@
 import streamlit as st
-from PIL import Image
 import pandas as pd
 import requests, re
 import re
+from dotenv import load_dotenv
+import os 
 
+load_dotenv()
 
+API_URL = os.getenv('API_URL')
 
-API_URL = "http://127.0.0.1:8000"
 
 id_match = r"^[A-Z0-9]{10}$"
 name_match = r"^[a-zA-Z\s]+$"
@@ -26,7 +28,7 @@ def view_details():
 
         st.dataframe(df.set_index("Serial No"))
         st.divider()    
-        st.write(f"Total Employes\t:{len(df)}")
+        st.success(f"Total Employes\t:{len(df)}")
         st.divider()
     except Exception as error:
         st.write(error)
