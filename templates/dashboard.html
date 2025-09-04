@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/dashboard.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <h1>EMS</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Dashboard</a></li>
+            <li><a href="#" id="viewEmployeesBtn">View All</a></li>
+            <li><a href="/login">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2 class="dashboard-title">Employee Management System</h2>
+        
+        <div class="grid-container">
+            <!-- Add Employee Form -->
+            <div class="form-card">
+                <h3>Add Employee</h3>
+                <form id="addEmployeeForm">
+                    <div class="form-group">
+                        <label for="emp_id">Employee ID</label>
+                        <input type="text" id="emp_id" placeholder="ASP + 7 digits" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emp_name">Name</label>
+                        <input type="text" id="emp_name" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emp_age">Age</label>
+                        <input type="number" id="emp_age" min="18" max="99" placeholder="Age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emp_department">Department</label>
+                        <select id="emp_department" required>
+                            <option value="">Select Department</option>
+                            <option value="HR">HR</option>
+                            <option value="IT">IT</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Employee</button>
+                </form>
+            </div>
+
+            <!-- Update Employee Form -->
+            <div class="form-card">
+                <h3>Update Employee</h3>
+                <div class="search-container">
+                    <input type="text" id="search_emp_id" placeholder="Enter Employee ID" required>
+                    <button id="searchBtn" class="btn btn-secondary">Search</button>
+                </div>
+                <form id="updateEmployeeForm">
+                    <div class="form-group">
+                        <label for="update_name">Name</label>
+                        <input type="text" id="update_name" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update_age">Age</label>
+                        <input type="number" id="update_age" min="18" max="99" placeholder="Age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="update_department">Department</label>
+                        <select id="update_department" required>
+                            <option value="">Select Department</option>
+                            <option value="HR">HR</option>
+                            <option value="IT">IT</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" disabled id="updateBtn">Update Employee</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Employee List Section -->
+        <div class="employee-list-section" id="employeeListSection">
+            <h3>Employee List</h3>
+            <table id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeList">
+                    <!-- Employee data will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='js/main.js') }}"></script>
+</body>
+</html>

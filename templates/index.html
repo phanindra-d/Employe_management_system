@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FASTAPIt</title>
-    <link rel="icon" href="https://cdn.vectorstock.com/i/1000v/38/92/logo-of-fastapi-python-web-framework-vector-50653892.jpg" type="image/x-icon" />
-
+    <title>My FastAPI App</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/assets/images/logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
 </head>
-<body style="background-color: beige;">
-    <h1 style="color: black;">This template is rendered from fastapi</h1>
-    <p style="color: rgb(0, 0, 0);">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro beatae asperiores quod consequuntur iure nulla, labore vel ex, doloribus id sed deserunt sunt aliquid? Porro dolorem provident quos quisquam est?</p>
-    <div style="width: 500px; height: 500px;"><img src="https://tse2.mm.bing.net/th/id/OIP.NagU9V2WYEucEEM0mTuV0gHaD-?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt=""></div>
+<body>
+   
+     <nav>
+        <div><img src="{{ url_for('static', path='/assets/images/logo.png')}}" id="logo-img"></div>
+        <div id="nav1">
+            <a href="/">Home</a>
+            <a href="/index">About</a>
+            <a href="/signup">SignUp</a>
+            <a href="/login">Login</a>
+            <a href="">Contact Us</a>
+        </div>
+     </nav>
+
+     
+     <section class="hero">
+    <div class="hero-content">
+        <h1>Managemate</h1>
+        <p>Manage Your Employee Data Seamlessly</p>
+    </div>
+    <div class="hero-image">
+        <img src="{{ url_for('static', path='/assets/images/hero-img.png') }}" alt="Team working illustration">
+    </div>
+</section>
+
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Managemate. All rights reserved.</p>
+        <p>Contact: <a href="mailto:phanindra.dharmavarapu@accellor.com">support@managemate.com</a></p>
+    </div>
+</footer>
+     
 </body>
 </html>

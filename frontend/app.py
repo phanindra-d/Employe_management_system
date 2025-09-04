@@ -17,7 +17,7 @@ def view_details():
     try:
         st.subheader("Employee List")
         response = requests.get(f"{API_URL}/read")
-        if response.status_code == 200:
+        if response.status_code == 200 or response.status_code == 201:
             data = response.json()
             df = pd.DataFrame(data["Result"], columns=["Employee ID","Name","Age","Department"])
             df.insert(0, "Serial No", range(1, len(df) + 1))
